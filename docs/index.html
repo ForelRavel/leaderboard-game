@@ -5,13 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Головоломка с поворотом</title>
     <style>
-        /* Твои стили */
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        #puzzle {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        .tile {
+            width: 100px;
+            height: 100px;
+            background-color: #ff7e5f;
+            border: 2px solid #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .tile.correct {
+            background-color: #4caf50;
+        }
+        #timer {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #message {
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        #leaderboard {
+            margin-top: 20px;
+            width: 300px;
+            text-align: center;
+        }
+        #leaderboard h2 {
+            margin-bottom: 10px;
+        }
+        #leaderboard ul {
+            list-style: none;
+            padding: 0;
+        }
+        #leaderboard li {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
     <div id="timer">Время: 0</div>
     <div id="puzzle">
-        <!-- Твоя игра -->
+        <div class="tile" data-rotation="0">1</div>
+        <div class="tile" data-rotation="0">2</div>
+        <div class="tile" data-rotation="0">3</div>
+        <div class="tile" data-rotation="0">4</div>
+        <div class="tile" data-rotation="0">5</div>
+        <div class="tile" data-rotation="0">6</div>
+        <div class="tile" data-rotation="0">7</div>
+        <div class="tile" data-rotation="0">8</div>
+        <div class="tile" data-rotation="0">9</div>
     </div>
     <div id="message">Поздравляю! Ты собрал головоломку!</div>
     <div id="leaderboard">
@@ -39,25 +108,20 @@
         async function saveScore() {
             const name = prompt('Ты выиграл! Введи свой ник:');
             if (name) {
-                await fetch('https://https://script.google.com/macros/s/AKfycbwp0ZbYUXOP2opZBsjLWXL-S6O1ZuWrPV91v-YxBpMebwbDlbQUae4PArcpQ1G4eE7DeA/exec', {
-                    method: 'POST',
-                    body: JSON.stringify({ name, time }),
-                });
+                // Здесь должен быть код для отправки результата на сервер
                 updateLeaderboard();
             }
         }
 
         // Обновление таблицы лидеров
         async function updateLeaderboard() {
-            const response = await fetch('https://<твой-API-URL>');
-            const scores = await response.json();
+            // Здесь должен быть код для получения результатов с сервера
+            const scores = []; // Заглушка
             leaderboardList.innerHTML = scores
-                .slice(1) // Пропускаем заголовок таблицы
-                .sort((a, b) => a[1] - b[1]) // Сортируем по времени
                 .map((score, index) => `
                     <li>
-                        <span>${index + 1}. ${score[0]}</span>
-                        <span>${score[1]} сек</span>
+                        <span>${index + 1}. ${score.name}</span>
+                        <span>${score.time} сек</span>
                     </li>
                 `)
                 .join('');
